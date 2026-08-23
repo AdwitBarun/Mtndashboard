@@ -120,33 +120,53 @@ const OFFERS_DATA = [
 
 // Definition of paths matching the prompt's examples
 const CONNECTIONS = [
+  // Smart Roaming Pack
+
   {
     from: "pp1",
     toAI: "ai1",
     toOffer: "off1",
     color: THEME.purple,
-  }, // High Data Usage During Travel -> Travel Pattern Match -> Smart Roaming Pack
-
-  {
-    from: "pp2",
-    toAI: "ai2",
-    toOffer: "off2",
-    color: THEME.green,
-  }, // Call Drops During Transit -> Premium Eligibility -> Network Assurance Add-on
+  },
 
   {
     from: "pp3",
     toAI: "ai3",
-    toOffer: "off3",
-    color: THEME.orange,
-  }, // Bill Shock After Roaming -> Roaming Affinity -> Bill Protection Plan
+    toOffer: "off1",
+    color: THEME.purple,
+  },
 
   {
     from: "pp4",
     toAI: "ai1",
     toOffer: "off1",
     color: THEME.purple,
-  }, // Network Speed Inconsistency -> Travel Pattern Match -> Smart Roaming Pack
+  },
+
+  // Network Assurance Add-on
+
+  {
+    from: "pp2",
+    toAI: "ai2",
+    toOffer: "off2",
+    color: THEME.green,
+  },
+
+  {
+    from: "pp4",
+    toAI: "ai2",
+    toOffer: "off2",
+    color: THEME.green,
+  },
+
+  // Bill Protection Plan
+
+  {
+    from: "pp3",
+    toAI: "ai3",
+    toOffer: "off3",
+    color: THEME.orange,
+  },
 ]
 
 export default function PainPoints() {
