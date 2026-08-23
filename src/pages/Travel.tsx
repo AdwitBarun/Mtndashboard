@@ -1,4 +1,4 @@
-import type { SVGProps } from "react"
+import React from "react"
 import { useParams, useNavigate, useLocation, Link } from "react-router-dom"
 import { ArrowLeft } from "lucide-react"
 import Layout from "../components/Layout"
@@ -39,48 +39,44 @@ const THEME = {
 }
 
 // Custom Solid Icons
-type IconProps = SVGProps<SVGSVGElement> & {
-  size?: number
-  color?: string
-}
-
-const IconGlobe = ({ size = 24, color = "currentColor", ...props }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={color} aria-hidden="true" {...props}>
+const IconGlobe = ({ size = 24, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
   </svg>
 )
-
-const IconCalendar = ({ size = 24, color = "currentColor", ...props }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={color} aria-hidden="true" {...props}>
+const IconCalendar = ({ size = 24, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
     <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z" />
   </svg>
 )
-
-const IconRupee = ({ size = 24, color = "currentColor", ...props }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={color} aria-hidden="true" {...props}>
+const IconRupee = ({ size = 24, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
     <path d="M13.66 7H9V5h8V3H6v2h1.34c1.54 0 2.87.87 3.51 2H6v2h4.74c-.45 1.5-1.96 2.5-3.74 2.5H6v2h1.66l4.63 7h2.64l-4.72-7c2.32-.4 4.14-2.22 4.62-4.5H18v-2h-3.34A5.02 5.02 0 0 0 13.66 7z" />
   </svg>
 )
-
-const IconPlane = ({ size = 24, color = "currentColor", ...props }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={color} aria-hidden="true" {...props}>
+const IconPlane = ({ size = 24, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
     <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" />
   </svg>
 )
-
-const IconAlert = ({ size = 24, color = "currentColor", ...props }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={color} aria-hidden="true" {...props}>
+const IconSparkles = ({ size = 24, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+    <path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5 1L9 4 6.5 10 1 12.5 6.5 15 9 21l2.5-6.5L17 12.5 11.5 10zm-3.5 4.71L8.68 13.18 10.18 12.5 8.68 11.82 8 10.29 7.32 11.82 5.82 12.5 7.32 13.18 8 14.71z" />
+  </svg>
+)
+const IconAlert = ({ size = 24, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
   </svg>
 )
 
 const SPEND_DATA = [
-  { month: "Mar '25", value: 980 },
-  { month: "Apr '25", value: 1180 },
-  { month: "May '25", value: 1420 },
-  { month: "Jun '25", value: 1520 },
-  { month: "Jul '25", value: 1650 },
-  { month: "Aug '25", value: 1290 },
+  { month: "Sep '25", value: 1120 },
+  { month: "Oct '25", value: 1240 },
+  { month: "Nov '25", value: 1360 },
+  { month: "Dec '25", value: 1280 },
+  { month: "Jan '26", value: 1200 },
+  { month: "Feb '26", value: 2220 },
 ]
 const MAX_VAL = 2000
 const Y_AXIS_STEPS = [2000, 1500, 1000, 500, 0]
@@ -109,12 +105,12 @@ export default function Travel() {
         {/* Header & Nav */}
         <div className="flex items-center justify-between mb-4">
           <Link
-            to={"/hub/" + customer.id}
+            to={"/hub/" + customer.id + "/identity"}
             state={{ explorerSearch }}
             className="inline-flex items-center gap-1.5 text-sm font-medium transition-opacity hover:opacity-70"
             style={{ color: THEME.maroon }}
           >
-            <ArrowLeft size={14} /> Back to Customer Hub
+            <ArrowLeft size={14} /> Back to Customer Identity
           </Link>
           <div className="flex flex-col items-end gap-2 shrink-0">
             <div className="flex items-center gap-5">
@@ -172,7 +168,7 @@ export default function Travel() {
               }}
             >
               <span className="text-[10px] font-bold text-white">
-                ✨ Customer 360
+                SPOG
               </span>
             </Link>
           </div>
@@ -180,11 +176,11 @@ export default function Travel() {
 
         <div className="flex items-center gap-1.5 text-xs mb-4 text-slate-400">
           <Link
-            to={"/hub/" + customer.id}
+            to={"/hub/" + customer.id + "/identity"}
             state={{ explorerSearch }}
             className="transition-colors hover:text-slate-600"
           >
-            Customer Hub
+            Customer Identity
           </Link>
           <span>›</span>
           <span>Sense</span>
@@ -237,7 +233,7 @@ export default function Travel() {
                   Monthly Roaming Spend (₹)
                 </h2>
                 <p className="text-sm font-medium text-slate-500 mt-1">
-                  Last 7 months roaming activity trend
+                  Last 6 months roaming activity trend
                 </p>
               </div>
 
@@ -264,10 +260,10 @@ export default function Travel() {
                   {/* Average Line */}
                   <div
                     className="absolute w-full border-b border-dashed border-slate-400 z-0 flex items-center"
-                    style={{ bottom: `${(1340 / MAX_VAL) * 100}%`, left: 0 }}
+                    style={{ bottom: `${(1403 / MAX_VAL) * 100}%`, left: 0 }}
                   >
                     <span className="absolute -left-12 text-[10px] font-bold text-slate-500 bg-white pr-1">
-                      ₹1,340 Avg
+                      ₹1,403 Avg
                     </span>
                   </div>
 
@@ -303,7 +299,7 @@ export default function Travel() {
                           className="w-full rounded-t-xl transition-all duration-300 group-hover:brightness-110"
                           style={{
                             height: `${heightPct}%`,
-                            background: "#C4B5FD",
+                            background: "#6D28D9",
                           }}
                         />
 
@@ -328,10 +324,10 @@ export default function Travel() {
                     <IconGlobe size={20} />
                   </div>
                   <span className="text-xs font-bold text-blue-800 uppercase tracking-wide">
-                    Countries Visited
+                    Avg Spend per Trip
                   </span>
                 </div>
-                <div className="text-3xl font-bold text-blue-900">3</div>
+                <div className="text-3xl font-bold text-blue-900">₹468</div>
               </div>
 
               <div className="bg-green-50 p-5 rounded-2xl border border-green-100 shadow-sm flex flex-col justify-center">
@@ -343,7 +339,7 @@ export default function Travel() {
                     Days Abroad
                   </span>
                 </div>
-                <div className="text-3xl font-bold text-green-900">17</div>
+                <div className="text-3xl font-bold text-green-900">21</div>
               </div>
 
               <div className="bg-[#FCE7EF] p-5 rounded-2xl border border-rose-200 shadow-sm flex flex-col justify-center">
@@ -468,12 +464,12 @@ export default function Travel() {
 
               <div className="flex flex-col gap-4">
                 {[
-                  { route: "Mumbai → Pune", trips: 12, pct: 100 },
-                  { route: "Mumbai → Bengaluru", trips: 7, pct: 58 },
-                  { route: "Mumbai → Delhi", trips: 6, pct: 50 },
-                  { route: "Mumbai → Hyderabad", trips: 5, pct: 41 },
-                  { route: "Mumbai → Chennai", trips: 4, pct: 33 },
-                ].map((row, i) => (
+  { route: "Mumbai → Pune", trips: 5, pct: 100 },
+  { route: "Mumbai → Bengaluru", trips: 4, pct: 80 },
+  { route: "Mumbai → Delhi", trips: 3, pct: 60 },
+  { route: "Mumbai → Hyderabad", trips: 2, pct: 40 },
+  { route: "Mumbai → Chennai", trips: 1, pct: 20 },
+].map((row, i) => (
                   <div key={i} className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center shrink-0 border border-slate-100 text-slate-500">
                       <IconPlane size={18} />
@@ -521,7 +517,7 @@ export default function Travel() {
                 </h2>
 
                 <div className="flex items-end gap-2 mb-2">
-                  <span className="text-5xl font-bold leading-none">82</span>
+                  <span className="text-5xl font-bold leading-none">78</span>
                   <span className="text-lg font-bold text-white/60 mb-1">
                     / 100
                   </span>
@@ -530,7 +526,7 @@ export default function Travel() {
                 <div className="h-1.5 w-full bg-white/20 rounded-full overflow-hidden mb-5">
                   <div
                     className="h-full bg-white rounded-full"
-                    style={{ width: "82%" }}
+                    style={{ width: "78%" }}
                   />
                 </div>
               </div>
@@ -562,7 +558,7 @@ export default function Travel() {
                   </div>
                 </div>
                 <div className="flex justify-between text-xs font-semibold text-slate-600">
-                  <span>Date: 14 May 2025</span>
+                  <span>Date: 14 Feb 2026</span>
                   <span>Time: 08:14 AM IST</span>
                 </div>
               </div>
@@ -581,7 +577,7 @@ export default function Travel() {
                 <div className="bg-[#7C3AED] text-white rounded-xl p-3 flex justify-between items-center shadow-md">
                   <span className="font-bold text-sm">Smart Roaming Pack</span>
                   <span className="text-xs font-bold bg-white/20 px-2 py-1 rounded">
-                    Potential Savings: ₹1,250
+                    Potential Savings: ₹820
                   </span>
                 </div>
               </div>
@@ -616,7 +612,7 @@ export default function Travel() {
                   },
                   {
                     label: "Top Travel Month",
-                    value: "May 2025",
+                    value: "Feb 2026",
                     icon: <IconCalendar size={16} />,
                   },
                   {
@@ -626,7 +622,7 @@ export default function Travel() {
                   },
                   {
                     label: "Estimated Spend Risk",
-                    value: "₹4,150",
+                    value: "₹2,100",
                     icon: <IconRupee size={16} />,
                     hl: true,
                   },
