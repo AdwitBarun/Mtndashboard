@@ -1,0 +1,10 @@
+{
+  "description": "Gain actionable insights into customer behavior with a comprehensive dashboard designed for telecoms, enabling targeted strategies for retention and growth.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

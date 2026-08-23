@@ -1,0 +1,560 @@
+import { useState } from "react";
+import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
+import { ArrowLeft, ChevronDown, ChevronUp, MapPin, Phone, Smartphone, Wifi, CreditCard, Activity, Calendar, IndianRupee, Database, Diamond, ShieldCheck, Crown, Users, CheckCircle2, AlertCircle, RefreshCw, Star, Zap, TrendingUp, Plane } from "lucide-react";
+import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer, Tooltip, Legend } from "recharts";
+import Layout from "../components/Layout";
+import Avatar from "../components/Avatar";
+import { getCustomer, SEGMENT_STYLE, RISK_STYLE, getRiskBand } from "../data/customers";
+
+const STAGES_NAV = [
+  { key: "understand", label: "Understand", path: "identity" },
+  { key: "sense", label: "Sense", path: "usage" },
+  { key: "decide", label: "Decide", path: "nba" },
+  { key: "engage", label: "Engage", path: "content-studio" },
+  { key: "optimize", label: "Optimize", path: "feedback" },
+];
+
+const STAGE_PREVIEW_INFO = {
+  title: "Sense Stage Preview",
+  subtitle: "Next stage will uncover behavioral signals, churn indicators, affinity scores, next best actions and AI-driven opportunities."
+};
+
+function Badge({ label, bg, text }: { label: string; bg: string; text: string }) {
+  return (
+    <span className="inline-block px-2.5 py-1 rounded-full text-xs font-semibold whitespace-nowrap" style={{ background: bg, color: text }}>
+      {label}
+    </span>
+  );
+}
+
+function ProgressRing({ progress, color, icon: Icon }: { progress: number, color: string, icon: any }) {
+  const radius = 18;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (progress / 100) * circumference;
+
+  return (
+    <div className="relative flex items-center justify-center w-12 h-12">
+      <svg className="transform -rotate-90 w-12 h-12 absolute">
+        <circle cx="24" cy="24" r={radius} stroke="currentColor" strokeWidth="3" fill="transparent" className="text-gray-100" />
+        <circle
+          cx="24"
+          cy="24"
+          r={radius}
+          stroke={color}
+          strokeWidth="3"
+          fill="transparent"
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          strokeLinecap="round"
+          className="transition-all duration-1000 ease-out"
+        />
+      </svg>
+      <Icon size={16} style={{ color }} />
+    </div>
+  );
+}
+
+const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: { subject: string; value: number; color: string; name: string }[] }) => {
+  if (active && payload && payload.length > 0) {
+    return (
+      <div className="bg-white border rounded-lg px-3 py-2 shadow-sm text-xs" style={{ borderColor: "#E2E2E6" }}>
+        <div className="font-semibold mb-1" style={{ color: "#1F2937" }}>{payload[0].payload.subject}</div>
+        {payload.map((p, i) => (
+          <div key={i} className="flex items-center justify-between gap-3 mb-0.5">
+            <span style={{ color: p.color }}>{p.name}:</span>
+            <span className="font-medium" style={{ color: "#1F2937" }}>{p.value}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
+
+export default function CustomerIdentity() {
+  const { customerId } = useParams<{ customerId: string }>();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const explorerSearch = (location.state as { explorerSearch?: string } | null)?.explorerSearch ?? "";
+
+  const customer = getCustomer(customerId ?? "");
+  const [expandedMember, setExpandedMember] = useState<string | null>(null);
+
+  if (!customer) {
+    return (
+      <Layout>
+        <div className="p-8"><p style={{ color: "#6B7280" }}>Customer not found.</p></div>
+      </Layout>
+    );
+  }
+
+  // Segment + Radar Mock Logic for 2-series chart
+  const radarData = [
+    { subject: "Data Usage", customer: customer.engagementDimensions.dataUsage, avg: 70 },
+    { subject: "Loyalty", customer: customer.engagementDimensions.loyalty, avg: 72 },
+    { subject: "Spend", customer: customer.engagementDimensions.spend, avg: 65 },
+    { subject: "Streaming", customer: customer.engagementDimensions.streaming, avg: 62 },
+    { subject: "Travel", customer: customer.engagementDimensions.travel, avg: 55 },
+    { subject: "Recharge", customer: customer.engagementDimensions.recharge, avg: 74 },
+  ];
+
+  return (
+    <Layout>
+      <div className="p-6 md:p-8 max-w-[1600px] mx-auto">
+        {/* Top Navigation */}
+        <div className="flex items-center justify-between mb-4">
+          <Link
+            to={`/hub/${customer.id}`}
+            state={{ explorerSearch }}
+            className="inline-flex items-center gap-1.5 text-sm font-medium transition-opacity hover:opacity-70"
+            style={{ color: "#7A1230" }}
+          >
+            <ArrowLeft size={14} /> Back to Customer Hub
+          </Link>
+          <div className="flex items-center gap-5">
+            {STAGES_NAV.map((s) => {
+              const isActive = s.key === "understand";
+              return (
+                <button
+                  key={s.key}
+                  onClick={() => {
+                    if (s.key === "understand") return;
+                    navigate(`/hub/${customer.id}/${s.path}`, { state: { explorerSearch } });
+                  }}
+                  className="flex flex-col items-center gap-1.5 transition-opacity hover:opacity-70"
+                  title={s.label}
+                >
+                  <div
+                    className="w-5 h-5 rounded-full"
+                    style={
+                      isActive
+                        ? { background: "#7A1230" }
+                        : { background: "transparent", border: "2px solid #D1D5DB" }
+                    }
+                  />
+                  <span className="text-[10px] font-medium whitespace-nowrap" style={{ color: isActive ? "#7A1230" : "#9CA3AF" }}>
+                    {s.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-1.5 text-xs mb-5" style={{ color: "#9CA3AF" }}>
+          <Link to={`/hub/${customer.id}`} state={{ explorerSearch }} className="transition-colors hover:text-[#7A1230]" style={{ color: "#6B7280" }}>
+            Customer Hub
+          </Link>
+          <span>›</span>
+          <span>Understand</span>
+          <span>›</span>
+          <span style={{ color: "#1F2937", fontWeight: 600 }}>Customer Identity</span>
+        </div>
+
+        {/* Main Dashboard Layout */}
+        <div className="grid grid-cols-1 xl:grid-cols-[340px_1fr_360px] gap-5 mb-5">
+          
+          {/* LEFT COLUMN: IDENTITY & KPIs */}
+          <div className="flex flex-col gap-5">
+            {/* Identity Card */}
+            <div className="rounded-2xl p-6 flex flex-col gap-5 relative overflow-hidden shadow-sm" style={{ background: "linear-gradient(145deg, #7A1230 0%, #4A0A1C 100%)" }}>
+              {/* Top Badges */}
+              <div className="flex items-center justify-between absolute top-4 left-4 right-4">
+                <div className="flex items-center gap-1 bg-white/10 backdrop-blur-md px-2 py-1 rounded-md text-[10px] text-white font-medium">
+                  <ShieldCheck size={12} className="text-emerald-400" /> Verified
+                </div>
+                <div className="flex items-center gap-1 bg-gradient-to-r from-amber-400/20 to-amber-600/20 border border-amber-400/30 px-2 py-1 rounded-md text-[10px] text-amber-300 font-medium">
+                  <Crown size={12} /> Premium
+                </div>
+              </div>
+
+              {/* Avatar & Core Details */}
+              <div className="flex flex-col items-center text-center mt-6">
+                <div className="relative">
+                  <Avatar initials={customer.initials} color="rgba(255,255,255,0.15)" size="xl" />
+                  <div className="absolute -bottom-1 -right-1 bg-white p-1 rounded-full shadow-sm">
+                    <div className="bg-indigo-50 text-indigo-700 p-0.5 rounded-full" title="Family Plan Owner">
+                      <Users size={12} />
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-3">
+                  <h2 className="text-white font-bold text-xl">{customer.name}</h2>
+                  <div className="text-white/70 text-sm mt-0.5">Age {customer.age} · {customer.location}</div>
+                  <div className="flex items-center justify-center gap-1.5 text-white/60 text-xs mt-2 font-mono bg-black/20 px-3 py-1 rounded-full mx-auto w-fit">
+                    <Phone size={11} /> +44 XXXX XX0456
+                  </div>
+                </div>
+              </div>
+
+              {/* Tags */}
+              <div className="flex flex-wrap justify-center gap-2 pt-2">
+                {["Power User", "Streamer", "Early Adopter", "Frequent Traveller", "Family Plan Owner", "Digital First"].map(tag => (
+                  <span key={tag} className="text-[10px] font-semibold px-2 py-1 rounded-md border border-white/10" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.9)" }}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Snapshot */}
+              <div className="grid grid-cols-2 gap-2 mt-2">
+                {[
+                  { label: "Premium Segment", icon: Crown, color: "text-amber-300" },
+                  { label: "Top 10% Value Tier", icon: TrendingUp, color: "text-emerald-300" },
+                  { label: "Low Churn", icon: ShieldCheck, color: "text-blue-300" },
+                  { label: "92% AI Confidence", icon: Zap, color: "text-purple-300" }
+                ].map((s, i) => (
+                  <div key={i} className="flex items-center gap-2 bg-black/15 rounded-lg p-2">
+                    <s.icon size={12} className={s.color} />
+                    <span className="text-[10px] text-white/90 font-medium leading-tight">{s.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Summary */}
+              <div className="bg-white/5 border border-white/10 rounded-lg p-3 mt-1">
+                <p className="text-white/80 text-xs leading-relaxed italic">
+                  "Digitally engaged family account owner with above-average streaming, strong loyalty, high mobile spend and consistent usage behavior."
+                </p>
+              </div>
+            </div>
+
+            {/* KPI Cards */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-white rounded-xl p-4 border shadow-sm flex items-center gap-3" style={{ borderColor: "#E2E2E6" }}>
+                <ProgressRing progress={85} color="#3B82F6" icon={Calendar} />
+                <div>
+                  <div className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">Tenure</div>
+                  <div className="font-bold text-gray-900">{customer.tenure} Months</div>
+                  <div className="text-[10px] text-gray-400 mt-0.5">Since Mar 2023</div>
+                </div>
+              </div>
+              <div className="bg-white rounded-xl p-4 border shadow-sm flex items-center gap-3" style={{ borderColor: "#E2E2E6" }}>
+                <ProgressRing progress={92} color="#10B981" icon={IndianRupee} />
+                <div>
+                  <div className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">Monthly Spend</div>
+                  <div className="font-bold text-gray-900">₹1,699</div>
+                  <div className="text-[10px] text-emerald-600 mt-0.5 font-medium">+12% vs Avg</div>
+                </div>
+              </div>
+              <div className="bg-white rounded-xl p-4 border shadow-sm flex items-center gap-3" style={{ borderColor: "#E2E2E6" }}>
+                <ProgressRing progress={78} color="#8B5CF6" icon={Database} />
+                <div>
+                  <div className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">Data Usage</div>
+                  <div className="font-bold text-gray-900">79 GB/mo</div>
+                  <div className="text-[10px] text-gray-400 mt-0.5">Top 20% Usage</div>
+                </div>
+              </div>
+              <div className="bg-white rounded-xl p-4 border shadow-sm flex items-center gap-3" style={{ borderColor: "#E2E2E6" }}>
+                <ProgressRing progress={95} color="#F59E0B" icon={Diamond} />
+                <div>
+                  <div className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">Lifetime Value</div>
+                  <div className="font-bold text-gray-900">₹1.38 L</div>
+                  <div className="text-[10px] text-gray-400 mt-0.5">24 Mo Prediction</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* MIDDLE COLUMN: FAMILY & DIGITAL PROFILE */}
+          <div className="flex flex-col gap-5">
+            
+            {/* Household Members Rich Panel */}
+            <div className="bg-white rounded-2xl border shadow-sm overflow-hidden flex flex-col" style={{ borderColor: "#E2E2E6" }}>
+              <div className="px-5 py-4 border-b flex justify-between items-center bg-gray-50/50" style={{ borderColor: "#F3F4F6" }}>
+                <div>
+                  <h3 className="text-base font-bold" style={{ color: "#1F2937" }}>Household Plan Members (4)</h3>
+                  <p className="text-xs mt-1" style={{ color: "#6B7280" }}>Family Data Pool: <span className="font-semibold text-gray-900">212 GB</span></p>
+                </div>
+                <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
+                  <Users size={20} />
+                </div>
+              </div>
+
+              <div className="flex-1 overflow-y-auto" style={{ maxHeight: "400px" }}>
+                {[
+                  { id: 'm1', name: "Rohan Mehta", initials: "RM", role: "Primary User", rel: "(Self)", device: "Samsung S24 Ultra", usage: "80 GB Usage", spend: "₹999 Contribution", color: "#3B82F6", details: { ott: "Netflix, Prime", apps: "YouTube, Instagram", pattern: "Heavy Evening", recharge: "Auto-pay (Credit)" } },
+                  { id: 'm2', name: "Priya Mehta", initials: "PM", role: "Secondary User", rel: "(Spouse)", device: "iPhone 14", usage: "52 GB Usage", spend: "₹299 Contribution", color: "#EC4899", details: { ott: "Prime, Disney+", apps: "WhatsApp, Spotify", pattern: "Consistent", recharge: "Linked to Primary" } },
+                  { id: 'm3', name: "Aarav Mehta", initials: "AM", role: "Dependent", rel: "(Child)", device: "iPad Air", usage: "65 GB Usage", spend: "₹200 Contribution", color: "#10B981", details: { ott: "Disney+, YouTube", apps: "Roblox, Minecraft", pattern: "Weekend Peak", recharge: "Linked to Primary" } },
+                  { id: 'm4', name: "Suresh Mehta", initials: "SM", role: "Secondary User", rel: "(Parent)", device: "Samsung A54", usage: "15 GB Usage", spend: "₹200 Contribution", color: "#F59E0B", details: { ott: "Hotstar", apps: "WhatsApp, News", pattern: "Morning Light", recharge: "Linked to Primary" } },
+                ].map((m) => {
+                  const open = expandedMember === m.id;
+                  return (
+                    <div key={m.id} className="border-b last:border-b-0" style={{ borderColor: "#F3F4F6" }}>
+                      <button
+                        onClick={() => setExpandedMember(open ? null : m.id)}
+                        className="w-full px-5 py-3.5 flex items-center gap-4 hover:bg-gray-50 transition-colors text-left"
+                      >
+                        <Avatar initials={m.initials} color={m.color} size="md" />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="font-semibold text-gray-900">{m.name}</span>
+                            <span className="text-xs text-gray-500">{m.rel}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
+                            <span>{m.role}</span>
+                            <span>·</span>
+                            <span>{m.device}</span>
+                          </div>
+                        </div>
+                        <div className="text-right mr-3">
+                          <div className="text-sm font-bold text-gray-900">{m.usage}</div>
+                          <div className="text-xs text-gray-500 mt-0.5">{m.spend}</div>
+                        </div>
+                        {open ? <ChevronUp size={16} className="text-gray-400" /> : <ChevronDown size={16} className="text-gray-400" />}
+                      </button>
+                      {open && (
+                        <div className="px-5 py-4 bg-gray-50/50 grid grid-cols-2 gap-4 text-xs border-t border-gray-100">
+                          <div><div className="text-gray-500 mb-1">OTT Subscriptions</div><div className="font-medium text-gray-900">{m.details.ott}</div></div>
+                          <div><div className="text-gray-500 mb-1">App Preferences</div><div className="font-medium text-gray-900">{m.details.apps}</div></div>
+                          <div><div className="text-gray-500 mb-1">Usage Pattern</div><div className="font-medium text-gray-900">{m.details.pattern}</div></div>
+                          <div><div className="text-gray-500 mb-1">Last Recharge</div><div className="font-medium text-gray-900">{m.details.recharge}</div></div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+              
+              <div className="p-4 bg-indigo-50/50 border-t" style={{ borderColor: "#E2E2E6" }}>
+                <div className="flex gap-3">
+                  <div className="mt-0.5 text-indigo-600"><AlertCircle size={16} /></div>
+                  <p className="text-xs text-indigo-900 leading-relaxed font-medium">
+                    "Streaming contributes 43% of family data consumption. Children account for 37% of total shared usage."
+                  </p>
+                </div>
+              </div>
+              
+              <div className="p-3 border-t bg-gray-50/50" style={{ borderColor: "#E2E2E6" }}>
+                <button className="w-full py-2.5 rounded-lg text-sm font-semibold text-indigo-700 bg-indigo-100/50 hover:bg-indigo-100 transition-colors flex items-center justify-center gap-2">
+                  View Complete Family Profile <ArrowLeft className="rotate-180" size={14} />
+                </button>
+              </div>
+            </div>
+
+            {/* Device & Digital Profile */}
+            <div className="bg-white rounded-2xl border shadow-sm p-5" style={{ borderColor: "#E2E2E6" }}>
+              <h3 className="text-base font-bold mb-4" style={{ color: "#1F2937" }}>Device & Digital Profile</h3>
+              
+              <div className="grid grid-cols-2 gap-4 mb-5">
+                {[
+                  { label: "Device", value: "Samsung S24 Ultra", icon: Smartphone },
+                  { label: "OS", value: "Android 14", icon: Activity },
+                  { label: "Network", value: "5G Standalone", icon: Wifi },
+                  { label: "Pref. Apps", value: "Netflix, IG", icon: Star },
+                  { label: "Payment", value: "UPI Auto-pay", icon: CreditCard },
+                  { label: "Backup", value: "Credit Card", icon: CreditCard },
+                ].map(({ label, value, icon: Icon }) => (
+                  <div key={label} className="flex items-start gap-3">
+                    <div className="bg-gray-100 p-1.5 rounded-md text-gray-500"><Icon size={14} /></div>
+                    <div>
+                      <div className="text-[10px] text-gray-500 font-medium uppercase tracking-wider">{label}</div>
+                      <div className="text-sm font-semibold text-gray-900 mt-0.5">{value}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap gap-2 mb-5 border-t pt-4" style={{ borderColor: "#F3F4F6" }}>
+                <Badge label="OTT Subscriber" bg="#F3E8FF" text="#6B21A8" />
+                <Badge label="UPI User" bg="#DCFCE7" text="#166534" />
+                <Badge label="Early Adopter" bg="#E0F2FE" text="#075985" />
+                <Badge label="E-Commerce Shopper" bg="#FEF3C7" text="#92400E" />
+                <Badge label="Mobile Gamer" bg="#FCE7F3" text="#9D174D" />
+                <Badge label="Premium Device" bg="#F1F5F9" text="#334155" />
+              </div>
+
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-100">
+                <div className="flex justify-between items-end mb-2">
+                  <div>
+                    <div className="text-xs font-semibold text-blue-800">Device Upgrade Indicator</div>
+                    <div className="text-[10px] text-blue-600 mt-0.5">Likely Device Refresh Within 6 Months</div>
+                  </div>
+                  <div className="text-lg font-bold text-blue-700">87%</div>
+                </div>
+                <div className="h-2 rounded-full bg-blue-200/50 overflow-hidden">
+                  <div className="h-full bg-blue-600 rounded-full" style={{ width: '87%' }} />
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN: ENGAGEMENT & PERSONA */}
+          <div className="flex flex-col gap-5">
+            
+            {/* Persona Archetype Card */}
+            <div className="bg-white rounded-2xl border shadow-sm p-6 relative overflow-hidden" style={{ borderColor: "#E2E2E6" }}>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#7A1230]/10 to-transparent rounded-bl-full pointer-events-none" />
+              
+              <div className="flex items-center gap-3 mb-3 relative">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "rgba(122,18,48,0.1)", color: "#7A1230" }}>
+                  <Star size={20} />
+                </div>
+                <div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "#7A1230" }}>Persona Archetype</div>
+                  <h3 className="text-base font-bold text-gray-900 mt-0.5">The Connected Family Administrator</h3>
+                </div>
+              </div>
+              
+              <p className="text-xs text-gray-600 leading-relaxed mb-5 relative">
+                "A digitally mature family decision maker who manages multiple mobile lines, values reliable connectivity, OTT services, family benefits and seamless digital experiences."
+              </p>
+
+              <div className="grid grid-cols-1 gap-3 mb-5">
+                <div className="bg-emerald-50 border border-emerald-100 rounded-lg p-3 flex justify-between items-center">
+                  <div>
+                    <div className="text-[10px] font-bold text-emerald-700 uppercase">Churn Risk</div>
+                    <div className="text-xs text-emerald-600 mt-0.5">High loyalty and stable usage.</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm font-bold text-emerald-700">Low</div>
+                    <div className="text-xs font-mono text-emerald-600 mt-0.5">0.28</div>
+                  </div>
+                </div>
+                
+                <div className="bg-amber-50 border border-amber-100 rounded-lg p-3 flex justify-between items-center">
+                  <div>
+                    <div className="text-[10px] font-bold text-amber-700 uppercase">Revenue Potential</div>
+                    <div className="text-xs text-amber-600 mt-0.5">Premium upgrade opportunity.</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm font-bold text-amber-700">High</div>
+                  </div>
+                </div>
+
+                <div className="bg-purple-50 border border-purple-100 rounded-lg p-3 flex justify-between items-center">
+                  <div>
+                    <div className="text-[10px] font-bold text-purple-700 uppercase">Data Value</div>
+                    <div className="text-xs text-purple-600 mt-0.5">Top data-consuming segment.</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm font-bold text-purple-700">Very High</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t pt-4" style={{ borderColor: "#F3F4F6" }}>
+                <div className="text-xs font-bold text-gray-900 mb-3 flex items-center gap-2"><Zap size={14} className="text-amber-500" /> AI Recommended Actions</div>
+                <div className="flex flex-wrap gap-2">
+                  <Badge label="Family OTT Bundle" bg="#F8FAFC" text="#334155" />
+                  <Badge label="Premium 5G Booster" bg="#F8FAFC" text="#334155" />
+                  <Badge label="Intl Roaming Pack" bg="#F8FAFC" text="#334155" />
+                  <Badge label="Family Protection" bg="#F8FAFC" text="#334155" />
+                </div>
+              </div>
+            </div>
+
+            {/* Engagement Dimensions */}
+            <div className="bg-white rounded-2xl border shadow-sm p-5 flex-1 flex flex-col" style={{ borderColor: "#E2E2E6" }}>
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h3 className="text-base font-bold" style={{ color: "#1F2937" }}>Engagement Dimensions</h3>
+                  <p className="text-xs mt-1" style={{ color: "#6B7280" }}>Customer vs Segment Average</p>
+                </div>
+              </div>
+              
+              <div style={{ height: 260 }} className="w-full -ml-2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RadarChart data={radarData} margin={{ top: 5, right: 25, bottom: 5, left: 25 }}>
+                    <PolarGrid stroke="#E2E2E6" />
+                    <PolarAngleAxis dataKey="subject" tick={{ fill: "#4B5563", fontSize: 10, fontWeight: 500 }} />
+                    <Radar name="Customer" dataKey="customer" stroke="#7A1230" fill="#7A1230" fillOpacity={0.3} strokeWidth={2} />
+                    <Radar name="Segment Avg" dataKey="avg" stroke="#94A3B8" fill="#94A3B8" fillOpacity={0.1} strokeWidth={2} strokeDasharray="4 4" />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '10px' }} />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </div>
+
+              <div className="mt-4 mb-4 overflow-hidden rounded-lg border border-gray-100">
+                <table className="w-full text-xs text-left">
+                  <thead className="bg-gray-50 text-gray-500 font-semibold uppercase text-[10px]">
+                    <tr>
+                      <th className="px-3 py-2">Dimension</th>
+                      <th className="px-3 py-2 text-right">Customer</th>
+                      <th className="px-3 py-2 text-right">Avg</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100 bg-white">
+                    {radarData.map((row) => (
+                      <tr key={row.subject} className="hover:bg-gray-50">
+                        <td className="px-3 py-1.5 font-medium text-gray-900">{row.subject}</td>
+                        <td className="px-3 py-1.5 text-right font-bold" style={{ color: "#7A1230" }}>{row.customer}</td>
+                        <td className="px-3 py-1.5 text-right text-gray-500">{row.avg}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="mt-auto bg-rose-50/50 border border-rose-100 rounded-xl p-3 flex gap-3">
+                <div className="text-rose-500 mt-0.5"><Activity size={16} /></div>
+                <p className="text-xs text-rose-900 font-medium leading-relaxed">
+                  "Customer significantly over-indexes in streaming, recharge activity and household engagement, indicating strong cross-sell potential."
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* FULL WIDTH INSIGHTS SECTION */}
+        <div className="grid grid-cols-4 gap-4 mb-6">
+          <div className="bg-white rounded-xl border shadow-sm p-4 flex items-center justify-between" style={{ borderColor: "#E2E2E6" }}>
+            <div>
+              <div className="text-xs font-semibold text-gray-500 mb-1">Data Growth</div>
+              <div className="text-xl font-bold text-gray-900">79 GB</div>
+            </div>
+            <div className="bg-emerald-50 px-2 py-1 rounded text-emerald-700 text-xs font-bold flex items-center gap-1">
+              <TrendingUp size={12} /> 22% QoQ
+            </div>
+          </div>
+          <div className="bg-white rounded-xl border shadow-sm p-4 flex items-center justify-between" style={{ borderColor: "#E2E2E6" }}>
+            <div>
+              <div className="text-xs font-semibold text-gray-500 mb-1">Loyalty</div>
+              <div className="text-xl font-bold text-gray-900">32 Months</div>
+            </div>
+            <div className="bg-blue-50 px-2 py-1 rounded text-blue-700 text-xs font-bold">
+              Top Tier
+            </div>
+          </div>
+          <div className="bg-white rounded-xl border shadow-sm p-4 flex items-center justify-between" style={{ borderColor: "#E2E2E6" }}>
+            <div>
+              <div className="text-xs font-semibold text-gray-500 mb-1">Family Engagement</div>
+              <div className="text-xl font-bold text-gray-900">4 Members</div>
+            </div>
+            <div className="bg-indigo-50 px-2 py-1 rounded text-indigo-700 text-xs font-bold flex items-center gap-1">
+              <Users size={12} /> Active
+            </div>
+          </div>
+          <div className="bg-white rounded-xl border shadow-sm p-4 flex items-center justify-between" style={{ borderColor: "#E2E2E6" }}>
+            <div>
+              <div className="text-xs font-semibold text-gray-500 mb-1">Travel Activity</div>
+              <div className="text-xl font-bold text-gray-900">9 Trips</div>
+            </div>
+            <div className="bg-amber-50 px-2 py-1 rounded text-amber-700 text-xs font-bold flex items-center gap-1">
+              <Plane size={12} /> Last Qtr
+            </div>
+          </div>
+        </div>
+
+        {/* CTA AREA */}
+        <div className="bg-gradient-to-r from-gray-900 to-[#7A1230] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 text-white shadow-lg">
+          <div className="max-w-2xl">
+            <h2 className="text-2xl font-bold mb-2">{STAGE_PREVIEW_INFO.title}</h2>
+            <p className="text-white/80 text-sm leading-relaxed">{STAGE_PREVIEW_INFO.subtitle}</p>
+          </div>
+          <button
+            onClick={() => navigate(`/hub/${customer.id}/usage`, { state: { explorerSearch } })}
+            className="shrink-0 bg-white text-[#7A1230] px-8 py-4 rounded-xl text-sm font-bold transition-all hover:bg-gray-100 hover:shadow-xl flex items-center gap-2"
+          >
+            Continue to Sense Stage <ArrowLeft className="rotate-180" size={16} />
+          </button>
+        </div>
+
+      </div>
+    </Layout>
+  );
+}
