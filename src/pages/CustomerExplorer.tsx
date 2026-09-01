@@ -30,7 +30,7 @@ const SEGMENTS: Segment[] = [
   "Frequent Travel Professionals",
   "Silent Decliners",
 ]
-const STRATEGIES: Strategy[] = ["Retention", "Upsell", "Cross-Sell", "Win-Back"]
+const STRATEGIES: Strategy[] = ["Retention", "Upsell", "Cross-Sell"]
 const PLAN_TYPES: PlanType[] = [
   "Prepaid Individual",
   "Prepaid Family",
@@ -397,7 +397,7 @@ export default function CustomerExplorer() {
             { label: "Total Base", value: "1.2M", icon: Users, color: "#4F46E5" },
             { label: "High Risk", value: "149k", icon: ActivityIcon, color: "#EC7A5C" },
             { label: "Avg ARPU", value: "₹459", icon: TrendingUp, color: "#7C3AED" },
-            { label: "Best Actions", value: "27", icon: Target, color: "#10B981" }
+            { label: "Recommended Offers", value: "27", icon: Target, color: "#10B981" }
           ].map((stat, i) => (
             <div key={i} className="border rounded-xl p-4 flex items-center gap-4" style={{ borderColor: "rgba(255,255,255,0.35)", background: "linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC7A5C 100%)" }}>
               <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: "#FFFFFF" }}>

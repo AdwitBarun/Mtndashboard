@@ -13,15 +13,15 @@ import { getCustomer, STRATEGY_STYLE } from "../data/customers"
 import { derivePainPoints, deriveOffers } from "../data/derived"
 
 const STAGES_NAV = [
-  { key: "understand", label: "Understand", path: "identity" },
-  { key: "sense", label: "Sense", path: "usage" },
+  { key: "sense", label: "Sense", path: "identity" },
   { key: "decide", label: "Decide", path: "pain-points" },
   { key: "engage", label: "Engage", path: "content-studio" },
   { key: "optimize", label: "Optimize", path: "feedback" },
 ]
 
+
 const DECIDE_TABS = [
-  { key: "pain-points", label: "Pain Points", path: "pain-points" },
+  { key: "pain-points", label: "Pain Points & Recommended Offers", path: "pain-points" },
   { key: "nba", label: "Next Best Action", path: "nba" },
 ]
 
@@ -282,7 +282,7 @@ export default function NBA() {
         className="flex flex-col min-h-full"
         style={{ backgroundColor: "#F8F8FA" }}
       >
-        <div className="p-4 md:p-6 flex-1 pb-24">
+        <div className="p-4 md:p-6 flex-1 pb-40">
           {/* Top bar */}
           <div className="flex items-center justify-between mb-3">
             <Link
@@ -437,7 +437,7 @@ export default function NBA() {
             ))}
           </div>
 
-          <div className="grid grid-cols-12 gap-4">
+          <div className="grid grid-cols-12 gap-4 pb-6">
             <div className="col-span-12 lg:col-span-8 flex flex-col">
               {/* TOP RECOMMENDATION */}
               <div
@@ -770,9 +770,9 @@ export default function NBA() {
               </div>
             </div>
 
-            <div className="col-span-12 lg:col-span-4 flex flex-col">
+            <div className="col-span-12 lg:col-span-4 self-start">
               <div
-                className="flex-1 rounded-xl border bg-white p-4 shadow-sm flex-1 flex flex-col justify-between"
+                className="rounded-xl border bg-white p-4 shadow-sm flex flex-col gap-4"
                 style={{ borderColor: "#E2E2E6" }}
               >
                 <div>
@@ -824,9 +824,9 @@ export default function NBA() {
               </div>
             </div>
 
-            <div className="col-span-12 lg:col-span-4 flex flex-col">
+            <div className="col-span-12 lg:col-span-4 self-start">
               <div
-                className="flex-1 rounded-xl border bg-white p-4 shadow-sm flex-1 flex flex-col justify-between"
+                className="rounded-xl border bg-white p-4 shadow-sm flex flex-col gap-4"
                 style={{ borderColor: "#E2E2E6" }}
               >
                 <div>
@@ -879,9 +879,9 @@ export default function NBA() {
               </div>
             </div>
 
-            <div className="col-span-12 lg:col-span-4 flex flex-col">
+            <div className="col-span-12 lg:col-span-4 self-start">
               <div
-                className="flex-1 rounded-xl border bg-white p-4 shadow-sm flex-1 flex flex-col justify-between"
+                className="rounded-xl border bg-white p-4 shadow-sm flex flex-col gap-4"
                 style={{ borderColor: "#E2E2E6" }}
               >
                 <div>

@@ -1,6 +1,6 @@
 export type Segment = "Early Life Subscribers" | "Loyal Family Accounts" | "Budget New Joiners" | "Android Sociables" | "Younger Techies" | "Premium Data Explorers" | "Frequent Travel Professionals" | "Silent Decliners"
 
-export type Strategy = "Retention" | "Upsell" | "Cross-Sell" | "Win-Back"
+export type Strategy = "Retention" | "Upsell" | "Cross-Sell" 
 export type PlanType = "Prepaid Individual" | "Prepaid Family" | "Postpaid Individual" | "Postpaid Family"
 export type Region = "North" | "South" | "East" | "West" | "Central"
 export type RiskBand = "Low" | "Medium" | "High"
@@ -87,7 +87,6 @@ export const STRATEGY_STYLE: Record<Strategy, { bg: string text: string }> = {
   Retention: { bg: "#FBEAEC", text: "#B23A48" },
   Upsell: { bg: "#E6F4EC", text: "#2F855A" },
   "Cross-Sell": { bg: "#E8F1FA", text: "#2B6CB0" },
-  "Win-Back": { bg: "#EFE9FB", text: "#6B46C1" },
 }
 
 export const RISK_STYLE: Record<RiskBand, { bg: string text: string }> = {
@@ -484,7 +483,7 @@ export const customers: Customer[] = [
     tenure: 36,
     arpu: 349,
     risk: 0.75,
-    strategy: "Win-Back",
+    strategy: "Retention",
     planType: "Postpaid Individual",
     age: 48,
     location: "Nagpur",
@@ -518,7 +517,7 @@ export const customers: Customer[] = [
     personaArchetype: {
       name: "The Fading Voice",
       description:
-        "A mid-tenure postpaid customer showing clear signs of disengagement. Usage has dropped significantly over 6 months; a targeted win-back offer may reactivate loyalty.",
+        "A mid-tenure postpaid customer showing clear signs of disengagement. Usage has dropped significantly over 6 months; a targeted offer may gain loyalty.",
       churnRisk: "High",
       revenue: "Medium",
       dataValue: "Low",
@@ -527,7 +526,7 @@ export const customers: Customer[] = [
       {
         time: "Today",
         icon: "alert-triangle",
-        text: "Win-back trigger — 90-day low engagement",
+        text: "Retention trigger — 90-day low engagement",
       },
       { time: "2 weeks ago", icon: "phone", text: "Outbound call — no answer" },
       {
@@ -537,7 +536,7 @@ export const customers: Customer[] = [
       },
     ],
     nextBestAction: {
-      offerName: "Loyalty Win-Back Offer",
+      offerName: "Retention Offer",
       acceptancePct: 38,
       revenueImpact: "Prevent ₹660 LTV loss",
       priority: "High",
@@ -974,7 +973,7 @@ export const customers: Customer[] = [
           44,
           48,
           0.81,
-          "Win-Back",
+          "Retention",
           "Postpaid Individual",
           50,
           "Cambridge, UK",
@@ -1052,7 +1051,7 @@ export const customers: Customer[] = [
           40,
           52,
           0.69,
-          "Win-Back",
+          "Retention",
           "Postpaid Individual",
           44,
           "Bath, UK",
@@ -1182,7 +1181,7 @@ export const customers: Customer[] = [
           33,
           44,
           0.76,
-          "Win-Back",
+          "Retention",
           "Postpaid Individual",
           39,
           "Newport, UK",
@@ -1286,7 +1285,7 @@ export const customers: Customer[] = [
           37,
           58,
           0.73,
-          "Win-Back",
+          "Retention",
           "Postpaid Individual",
           42,
           "Colchester, UK",
@@ -1407,7 +1406,7 @@ export const customers: Customer[] = [
       "Silent Decliners": {
         name: "The Fading Voice",
         description:
-          "A disengaging subscriber whose usage and spend are trending downward. Win-back offers and proactive outreach are critical now.",
+          "A disengaging subscriber whose usage and spend are trending downward. Retention offers and proactive outreach are critical now.",
         churnRisk: "High",
         revenue: "Medium",
         dataValue: "Low",
@@ -1540,8 +1539,8 @@ export const customers: Customer[] = [
         revenueImpact: "Retain ARR",
         priority: "High",
       },
-      "Win-Back": {
-        offerName: "Win-Back Incentive Pack",
+      "Retention": {
+        offerName: "Retention Incentive Pack",
         acceptancePct: 36,
         revenueImpact: "Prevent churn",
         priority: "High",
@@ -1632,8 +1631,8 @@ export const customers: Customer[] = [
               time: "2 weeks ago",
               icon: "mail",
               text:
-                strategy === "Win-Back"
-                  ? "Win-back campaign triggered"
+                strategy === "Retention"
+                  ? "Retention campaign triggered"
                   : "Promotional email opened",
             },
           ],

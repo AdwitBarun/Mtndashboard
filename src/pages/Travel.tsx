@@ -5,19 +5,19 @@ import Layout from "../components/Layout"
 import { getCustomer } from "../data/customers"
 
 const STAGES_NAV = [
-  { key: "understand", label: "Understand", path: "identity" },
-  { key: "sense", label: "Sense", path: "usage" },
+  { key: "sense", label: "Sense", path: "identity" },
   { key: "decide", label: "Decide", path: "pain-points" },
   { key: "engage", label: "Engage", path: "content-studio" },
   { key: "optimize", label: "Optimize", path: "feedback" },
 ]
 
+
 const SENSE_TABS = [
+  { key: "identity", label: "Customer Identity", path: "identity" },
   { key: "usage", label: "Data Usage", path: "usage" },
   { key: "travel", label: "Travel", path: "travel" },
   { key: "payments", label: "Payment", path: "payments" },
 ]
-
 const THEME = {
   maroon: "#7C3AED",
   darkMaroon: "#4F46E5",
@@ -78,7 +78,7 @@ const SPEND_DATA = [
   { month: "Jan '26", value: 1200 },
   { month: "Feb '26", value: 2220 },
 ]
-const MAX_VAL = 2000
+const MAX_VAL = 2500
 const Y_AXIS_STEPS = [2000, 1500, 1000, 500, 0]
 
 export default function Travel() {
@@ -289,7 +289,7 @@ export default function Travel() {
                         {/* Static Value */}
                         <span
                           className={`absolute text-[11px] font-bold transition-opacity group-hover:opacity-0 text-slate-500`}
-                          style={{ bottom: `calc(${heightPct}% + 8px)` }}
+                          style={{ bottom: `calc(${heightPct}% + 0px)` }}
                         >
                           ₹{data.value}
                         </span>

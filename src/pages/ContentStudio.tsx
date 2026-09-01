@@ -22,8 +22,7 @@ import { getCustomer, Customer } from "../data/customers"
 import { derivePainPoints, deriveOffers } from "../data/derived"
 
 const STAGES_NAV = [
-  { key: "understand", label: "Understand", path: "identity" },
-  { key: "sense", label: "Sense", path: "usage" },
+  { key: "sense", label: "Sense", path: "identity" },
   { key: "decide", label: "Decide", path: "pain-points" },
   { key: "engage", label: "Engage", path: "content-studio" },
   { key: "optimize", label: "Optimize", path: "feedback" },

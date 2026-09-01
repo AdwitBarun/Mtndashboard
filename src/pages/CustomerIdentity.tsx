@@ -44,11 +44,17 @@ import {
 } from "../data/customers"
 
 const STAGES_NAV = [
-  { key: "understand", label: "Understand", path: "identity" },
-  { key: "sense", label: "Sense", path: "usage" },
+  { key: "sense", label: "Sense", path: "identity" },
   { key: "decide", label: "Decide", path: "pain-points" },
   { key: "engage", label: "Engage", path: "content-studio" },
   { key: "optimize", label: "Optimize", path: "feedback" },
+]
+
+const SENSE_TABS = [
+  { key: "identity", label: "Customer Identity", path: "identity" },
+  { key: "usage", label: "Data Usage", path: "usage" },
+  { key: "travel", label: "Travel", path: "travel" },
+  { key: "payments", label: "Payment", path: "payments" },
 ]
 
 function Badge({ label, bg, text }: { label: string bg: string text: string }) {
@@ -217,12 +223,11 @@ export default function CustomerIdentity() {
           <div className="flex flex-col items-end gap-2 shrink-0">
             <div className="flex items-center gap-5">
               {STAGES_NAV.map((s) => {
-                const isActive = s.key === "understand"
+                const isActive = s.key === "sense"
                 return (
                   <button
                     key={s.key}
                     onClick={() => {
-                      if (s.key === "understand") return
                       navigate(`/hub/${customer.id}/${s.path}`, {
                         state: { explorerSearch },
                       })
@@ -237,7 +242,7 @@ export default function CustomerIdentity() {
                           ? { background: "#7C3AED" }
                           : STAGES_NAV.findIndex((x) => x.key === s.key) <
                               STAGES_NAV.findIndex(
-                                (x) => x.key === "understand",
+                                (x) => x.key === "sense",
                               )
                             ? { background: "#8B5CF6" }
                             : {
@@ -253,7 +258,7 @@ export default function CustomerIdentity() {
                           ? "#7C3AED"
                           : STAGES_NAV.findIndex((x) => x.key === s.key) <
                               STAGES_NAV.findIndex(
-                                (x) => x.key === "understand",
+                                (x) => x.key === "sense",
                               )
                             ? "#8B5CF6"
                             : "#CBD5E1",
@@ -295,11 +300,44 @@ export default function CustomerIdentity() {
             Customer Explorer
           </Link>
           <span>›</span>
-          <span>Understand</span>
+          <span>Sense</span>
           <span>›</span>
           <span style={{ color: "#1F2937", fontWeight: 600 }}>
             Customer Identity
           </span>
+        </div>
+
+        {/* Sense Navigation Tabs */}
+        <div
+          className="flex items-center gap-1 mb-6 border-b"
+          style={{ borderColor: "#E2E2E6" }}
+        >
+          {SENSE_TABS.map((tab) => {
+            const isActive = tab.key === "identity"
+
+            return (
+              <button
+                key={tab.key}
+                onClick={() =>
+                  navigate(`/hub/${customer.id}/${tab.path}`, {
+                    state: { explorerSearch },
+                  })
+                }
+                className="px-4 py-2 text-sm font-semibold transition-colors"
+                style={
+                  isActive
+                    ? {
+                        color: "#7C3AED",
+                        borderBottom: "2px solid #7C3AED",
+                        marginBottom: -1,
+                      }
+                    : { color: "#6B7280" }
+                }
+              >
+                {tab.label}
+              </button>
+            )
+          })}
         </div>
 
         {/* Main Dashboard Layout */}
@@ -360,7 +398,7 @@ export default function CustomerIdentity() {
               </div>
 
               {/* Tags */}
-              <div className="flex flex-wrap pt-2 w-[500px] items-center justify-start gap-2">
+              <div className="flex flex-wrap pt-2 w-full items-center justify-center gap-2">
                 {customer.behavioralTags.map((tag) => (
                   <span
                     key={tag.label}
@@ -877,7 +915,7 @@ style={{
   color: "#4F46E5",
 }}
           >
-            Begin Rohan&apos;s NBA Journey{" "}
+            Explore Customer Journey{" "}
             <ArrowLeft className="rotate-180" size={16} />
           </button>
         </div>

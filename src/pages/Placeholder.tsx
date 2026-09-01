@@ -14,10 +14,11 @@ const PAGE_NAMES: Record<string, string> = {
 }
 
 const STAGE_NAMES: Record<string, string> = {
+  identity: "Sense",
   usage: "Sense",
   travel: "Sense",
   payments: "Sense",
-  "pain-points": "Sense",
+  "pain-points": "Decide",
   nba: "Decide",
   "content-studio": "Engage",
   feedback: "Optimize",

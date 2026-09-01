@@ -33,7 +33,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Navigate to="/explorer" replace />} />
         <Route path="/explorer" element={<CustomerExplorer />} />
         <Route
           path="/hub/:customerId/identity"

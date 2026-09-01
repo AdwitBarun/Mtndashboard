@@ -256,9 +256,9 @@ const OFFER_TEMPLATES: Record<Strategy, {
       ppIdx: [1],
     },
   ],
-  "Win-Back": [
+  "Reactivation": [
     {
-      title: "Win-Back Incentive Pack",
+      title: "Reactivation Incentive Pack",
       strategyLabel: "RETENTION",
       baseLikelihood: 42,
       estValue: "Prevent loss",

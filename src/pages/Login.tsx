@@ -1,89 +1,99 @@
 import { useNavigate } from "react-router-dom"
+import { ChevronRight } from "lucide-react"
 
 export default function Login() {
   const navigate = useNavigate()
 
   return (
-    <div className="flex min-h-screen bg-[#F4F5F7] font-sans">
-      {/* Left Panel */}
+    <div className="h-screen flex overflow-hidden bg-[#F5F6F8]">
+      {/* LEFT PANEL */}
+
       <div
-        className="hidden lg:flex w-1/2 flex-col justify-between p-12 text-white"
+        className="hidden lg:flex w-[62%] relative overflow-hidden"
         style={{
-          background:
-            "linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC7A5C 100%)",
+          background: `
+          radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08) 0%, transparent 35%),
+          radial-gradient(circle at 80% 25%, rgba(255,255,255,0.05) 0%, transparent 30%),
+          radial-gradient(circle at 80% 80%, rgba(236,122,92,0.18) 0%, transparent 35%),
+          linear-gradient(135deg,#4F46E5 0%,#7C3AED 55%,#EC7A5C 100%)
+        `,
         }}
       >
-        <div>
-          <div className="flex items-center gap-3 mb-16">
-            <div className="w-8 h-8 rounded flex items-center justify-center bg-white rotate-45 transform">
-              <div className="-rotate-45 text-[#7C3AED] font-black text-sm">
-                S
-              </div>
-            </div>
-            <div>
-              <div className="font-bold text-sm tracking-widest uppercase leading-tight">
-                Solstice
-              </div>
-              <div className="text-white/80 font-medium text-[10px] tracking-widest uppercase leading-tight">
-                Mobile
-              </div>
-            </div>
-          </div>
+        {/* Background Glow */}
 
-          <h1 className="text-4xl lg:text-5xl font-bold leading-tight mb-6 max-w-lg">
-            AI-Driven Customer Decisioning
-          </h1>
-          <p className="text-lg lg:text-xl text-white/90 mb-10 max-w-md">
-            Turn customer insight into high-impact action.
-          </p>
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full bg-white/10 blur-3xl" />
 
-          <div className="flex flex-wrap gap-3">
-            {["Real-time signals", "ML scoring", "Guardrails"].map(
-              (chip, i) => (
-                <span
-                  key={i}
-                  className="px-4 py-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-sm font-medium"
-                >
-                  {chip}
-                </span>
-              ),
-            )}
+        <div className="absolute -bottom-20 -right-20 w-[500px] h-[500px] rounded-full bg-orange-400/20 blur-3xl" />
+
+        {/* Decorative Lines */}
+
+        <div className="absolute right-16 bottom-16 opacity-20">
+          <div className="w-72 h-72 border border-white rounded-full" />
+          <div className="absolute inset-10 border border-white rounded-full" />
+          <div className="absolute inset-20 border border-white rounded-full" />
+        </div>
+
+        {/* Content */}
+
+        <div className="relative z-10 flex flex-col justify-center px-24">
+          <div className="max-w-[680px]">
+            <p className="uppercase tracking-[0.4em] text-xs text-white/60 mb-8">
+              AI-Native Decisioning Platform
+            </p>
+
+            <h1 className="text-[78px] font-bold leading-[0.9] text-white tracking-tight">
+              Customer
+              <br />
+              Journey
+            </h1>
+
+            <p className="mt-8 text-[24px] leading-relaxed text-white/80 max-w-[560px]">
+              Sense customer context, orchestrate next best actions,
+              and continuously learn from outcomes.
+            </p>
+
+            
           </div>
         </div>
       </div>
 
-      {/* Right Panel */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
-        <div className="w-full max-w-md bg-white rounded-3xl p-10 shadow-[0_4px_24px_rgba(0,0,0,0.04)] border border-slate-200">
-          <div className="flex items-center gap-3 mb-10 lg:hidden">
-            <div className="w-8 h-8 rounded flex items-center justify-center bg-[#7C3AED] rotate-45 transform">
-              <div className="-rotate-45 text-white font-black text-sm">S</div>
-            </div>
-            <div>
-              <div className="font-bold text-slate-900 text-sm tracking-widest uppercase leading-tight">
-                Solstice
-              </div>
-              <div className="text-slate-500 font-medium text-[10px] tracking-widest uppercase leading-tight">
-                Mobile
-              </div>
-            </div>
-          </div>
+      {/* RIGHT PANEL */}
 
-          <h2 className="text-3xl font-bold text-slate-900 mb-2">
-            Welcome back
+      <div className="w-full lg:w-[38%] flex items-center justify-center px-12 bg-[#F5F6F8]">
+        <div className="w-full max-w-[500px] bg-white rounded-[32px] border border-slate-200 p-12 shadow-[0_8px_32px_rgba(0,0,0,0.05)]">
+          <h2 className="text-[52px] font-bold text-slate-900 leading-none">
+            Welcome
           </h2>
-          <p className="text-slate-500 mb-10">
-            Sign in to access your Next Best Action engine.
+
+          <p className="mt-6 text-slate-500 leading-relaxed text-lg">
+            Explore the customer decision journey powered by
+            Agentic AI and Next Best Action orchestration.
           </p>
 
           <button
             onClick={() => navigate("/explorer")}
-            className="w-full text-white font-bold py-4 rounded-xl shadow-md transition-all hover:shadow-lg active:scale-[0.98]"
+            className="
+              mt-10
+              w-full
+              py-4
+              rounded-xl
+              text-white
+              font-semibold
+              flex
+              items-center
+              justify-center
+              gap-2
+              shadow-lg
+              hover:shadow-xl
+              transition-all
+            "
             style={{
-              background: "linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)",
+              background:
+                "linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%)",
             }}
           >
-            Sign In
+            Launch Experience
+            <ChevronRight size={18} />
           </button>
         </div>
       </div>

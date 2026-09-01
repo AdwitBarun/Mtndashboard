@@ -2,7 +2,6 @@ import { useParams, useNavigate, useLocation, Link } from "react-router-dom"
 import {
   ComposedChart,
   Bar,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -12,6 +11,7 @@ import {
   Pie,
   Cell,
   Label,
+  ReferenceLine,
 } from "recharts"
 import {
   ArrowLeft,
@@ -24,27 +24,31 @@ import Layout from "../components/Layout"
 import { getCustomer } from "../data/customers"
 
 const STAGES_NAV = [
-  { key: "understand", label: "Understand", path: "identity" },
-  { key: "sense", label: "Sense", path: "usage" },
+  { key: "sense", label: "Sense", path: "identity" },
   { key: "decide", label: "Decide", path: "pain-points" },
   { key: "engage", label: "Engage", path: "content-studio" },
   { key: "optimize", label: "Optimize", path: "feedback" },
 ]
 
 const SENSE_TABS = [
+  { key: "identity", label: "Customer Identity", path: "identity" },
   { key: "usage", label: "Data Usage", path: "usage" },
   { key: "travel", label: "Travel", path: "travel" },
   { key: "payments", label: "Payment", path: "payments" },
 ]
 
 const DATA_USAGE_TREND = [
-  { month: "Sep ‘25", usageGB: 49 },
-  { month: "Oct ‘25", usageGB: 52 },
-  { month: "Nov ‘25", usageGB: 59 },
-  { month: "Dec ‘25", usageGB: 54 },
-  { month: "Jan ‘26", usageGB: 47 },
-  { month: "Feb ‘26", usageGB: 43 },
+  { month: "Sep '25", usageGB: 49 },
+  { month: "Oct '25", usageGB: 52 },
+  { month: "Nov '25", usageGB: 59 },
+  { month: "Dec '25", usageGB: 54 },
+  { month: "Jan '26", usageGB: 47 },
+  { month: "Feb '26", usageGB: 43 },
 ]
+
+const AVERAGE_DATA_USAGE =
+  DATA_USAGE_TREND.reduce((total, item) => total + item.usageGB, 0) /
+  DATA_USAGE_TREND.length
 
 const PLATFORM_DATA = [
   { name: "Hotstar", hrs: 41, percent: 31, fill: "#2B6CB0" },
@@ -157,18 +161,17 @@ export default function DataUsage() {
             </div>
 
             <Link
-  to={`/hub/${customer.id}/closed-loop`}
-  state={{ explorerSearch }}
-  className="flex items-center justify-center gap-1.5 px-3 py-1 rounded-full shadow-sm transition-all hover:shadow-md group cursor-pointer"
-  style={{
-    background: "linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)",
-    color: "white",
-  }}
->
-  <span className="text-[10px] font-bold text-white">
-    SPOG
-  </span>
-</Link>
+              to={`/hub/${customer.id}/closed-loop`}
+              state={{ explorerSearch }}
+              className="flex items-center justify-center gap-1.5 px-3 py-1 rounded-full shadow-sm transition-all hover:shadow-md group cursor-pointer"
+              style={{
+                background:
+                  "linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)",
+                color: "white",
+              }}
+            >
+              <span className="text-[10px] font-bold text-white">SPOG</span>
+            </Link>
           </div>
         </div>
 
@@ -197,7 +200,7 @@ export default function DataUsage() {
 
         {/* Page title */}
         <h1 className="text-xl font-bold mb-3 text-gray-900 shrink-0">
-          Usage &amp; Streaming Insights
+          Usage & Streaming Insights
         </h1>
 
         {/* Sense tabs */}
@@ -257,10 +260,8 @@ export default function DataUsage() {
                 </div>
 
                 <div className="hidden sm:flex items-center gap-2 rounded-full bg-orange-50 px-3 py-1.5">
-                  <TrendingDown
-                    size={13}
-                    style={{ color: "#EA580C" }}
-                  />
+                  <TrendingDown size={13} style={{ color: "#EA580C" }} />
+
                   <span className="text-[10px] font-semibold text-orange-700">
                     Declining since November peak
                   </span>
@@ -335,37 +336,29 @@ export default function DataUsage() {
                       }}
                     />
 
-                    {/* All bars use exactly the same colour */}
+                    {/* Horizontal average line based on Travel page */}
+                    <ReferenceLine
+                      y={AVERAGE_DATA_USAGE}
+                      stroke="#94A3B8"
+                      strokeWidth={1.5}
+                      strokeDasharray="5 4"
+                      ifOverflow="extendDomain"
+                      label={{
+                        value: `${Math.round(AVERAGE_DATA_USAGE)} GB Avg`,
+                        position: "insideLeft",
+                        fill: "#64748B",
+                        fontSize: 10,
+                        fontWeight: 700,
+                        offset: 8,
+                      }}
+                    />
+
                     <Bar
                       dataKey="usageGB"
                       name="Data Usage"
                       fill="#6D28D9"
                       radius={[8, 8, 2, 2]}
                       maxBarSize={82}
-                    />
-
-                    {/* Trend line replaces the previous vertical marker */}
-                    <Line
-  type="monotone"
-  dataKey="usageGB"
-  name=""
-  tooltipType="none"
-  stroke="#F97316"
-  strokeWidth={3}
-  strokeDasharray="8 6"
-  connectNulls
-  dot={{
-    r: 4,
-    fill: "#FFFFFF",
-    stroke: "#F97316",
-    strokeWidth: 2.5,
-  }}
-                      activeDot={{
-                        r: 6,
-                        fill: "#F97316",
-                        stroke: "#FFFFFF",
-                        strokeWidth: 3,
-                      }}
                     />
                   </ComposedChart>
                 </ResponsiveContainer>
@@ -452,9 +445,7 @@ export default function DataUsage() {
                     9-11 PM
                   </span>
 
-                  <span className="text-[10px] text-gray-500">
-                    IST
-                  </span>
+                  <span className="text-[10px] text-gray-500">IST</span>
                 </div>
               </div>
             </div>
@@ -593,7 +584,7 @@ export default function DataUsage() {
               style={{ borderColor: "#E5E7EB" }}
             >
               <h2 className="text-base font-bold text-gray-900 mb-3">
-                Live Sports &amp; Events
+                Live Sports & Events
               </h2>
 
               <div className="grid grid-cols-3 gap-3">
