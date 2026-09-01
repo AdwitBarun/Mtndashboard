@@ -25,13 +25,47 @@ const DECIDE_TABS = [
   { key: "nba", label: "Next Best Action", path: "nba" },
 ]
 
-const DECISION_FACTORS: Record<string, {
-  label: string
-  score: number
-  positive: boolean
-  reason: string
-  icon: string
-}[]> = {
+const DECISION_FACTORS: Record<
+  string,
+  {
+    label: string
+    score: number
+    positive: boolean
+    reason: string
+    icon: string
+  }[]
+> = {
+  "Retention": [
+    {
+      label: "Churn Risk",
+      score: 94,
+      positive: true,
+      reason: "Recent decline in engagement and recharge frequency.",
+      icon: "⚠️",
+    },
+    {
+      label: "Service Experience",
+      score: 86,
+      positive: true,
+      reason: "Multiple network experience pain points identified.",
+      icon: "📡",
+    },
+    {
+      label: "Customer Value",
+      score: 82,
+      positive: true,
+      reason: "High lifetime value customer worth retaining.",
+      icon: "💰",
+    },
+    {
+      label: "Price Sensitivity",
+      score: 71,
+      positive: false,
+      reason: "Likely to compare competitor offers.",
+      icon: "🏷️",
+    },
+  ],
+
   "Cross-Sell": [
     {
       label: "Roaming Affinity",
@@ -59,7 +93,7 @@ const DECISION_FACTORS: Record<string, {
       score: 72,
       positive: false,
       reason: "High spend but bill shock history.",
-      icon: "⚠",
+      icon: "⚠️",
     },
   ],
 }
@@ -261,7 +295,7 @@ export default function NBA() {
   const revImpact = customer.nextBestAction.revenueImpact.replace(/₹/g, "₹")
 
   const factors =
-    DECISION_FACTORS[customer.strategy] ?? DECISION_FACTORS["Upsell"]
+  DECISION_FACTORS[customer.strategy] ?? []
   const altOffers =
     SEGMENT_ALT_OFFERS[customer.segment] ??
     SEGMENT_ALT_OFFERS["Loyal Family Accounts"]
