@@ -721,44 +721,47 @@ export default function PainPoints() {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center gap-6">
-              <div className="flex items-center gap-5 text-sm">
-                <div className="flex flex-col">
-                  <span className="text-[10px] uppercase text-slate-500 font-bold">
-                    Selected
-                  </span>
-                  <span className="font-bold text-slate-900">3 Offers</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[10px] uppercase text-slate-500 font-bold">
-                    Est. Value
-                  </span>
-                  <span className="font-bold text-green-600">₹2,340</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[10px] uppercase text-slate-500 font-bold">
-                    Avg Prob
-                  </span>
-                  <span className="font-bold text-blue-600">82%</span>
-                </div>
-              </div>
+      <div className="flex flex-col items-end gap-3 ml-auto">
+  <div className="flex items-center gap-10">
+    <div className="flex flex-col">
+      <span className="text-[10px] uppercase text-slate-500 font-bold">
+        Selected
+      </span>
+      <span className="text-lg font-bold text-slate-900">
+        3 Offers
+      </span>
+    </div>
 
-              <button
-                onClick={() =>
-                  navigate("/hub/" + customer.id + "/nba", {
-                    state: { explorerSearch },
-                  })
-                }
-                className="px-8 
-                
-                py-4 rounded-xl text-sm font-bold text-white transition-all hover:shadow-lg hover:-translate-y-0.5 flex items-center gap-2 shrink-0"
-                style={{
-                  background: `linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC7A5C 100%)`,
-                }}
-              >
-                Next Best Action Brain <ChevronRight size={18} />
-              </button>
-            </div>
+    <div className="flex flex-col">
+      <span className="text-[10px] uppercase text-slate-500 font-bold">
+        Est. Value
+      </span>
+      <span className="text-lg font-bold text-green-600">
+        ₹2,340
+      </span>
+    </div>
+
+    <div className="flex flex-col">
+      <span className="text-[10px] uppercase text-slate-500 font-bold">
+        Avg Prob
+      </span>
+      <span className="text-lg font-bold text-blue-600">
+        82%
+      </span>
+    </div>
+  </div>
+
+  <button
+    onClick={() =>
+      navigate("/hub/" + customer.id + "/nba", {
+        state: { explorerSearch },
+      })
+    }
+    className="text-black text-sm font-semibold hover:text-slate-700 transition-all"
+  >
+    Proceed &gt;&gt;
+  </button>
+</div>
           </div>
         </div>
       </div>
