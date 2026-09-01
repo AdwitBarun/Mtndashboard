@@ -16,7 +16,7 @@ import Layout from "../components/Layout"
 import { getCustomer } from "../data/customers"
 
 const STAGES_NAV = [
-  { key: "understand", label: "Understand", path: "identity" },
+  
   { key: "sense", label: "Sense", path: "usage" },
   { key: "decide", label: "Decide", path: "pain-points" },
   { key: "engage", label: "Engage", path: "content-studio" },
@@ -721,8 +721,8 @@ export default function PainPoints() {
               </p>
             </div>
 
-      <div className="flex flex-col items-end gap-3 ml-auto">
-  <div className="flex items-center gap-10">
+      <div className="flex flex-col items-end gap-3 shrink-0">
+  <div className="flex items-center gap-12">
     <div className="flex flex-col">
       <span className="text-[10px] uppercase text-slate-500 font-bold">
         Selected
@@ -751,16 +751,22 @@ export default function PainPoints() {
     </div>
   </div>
 
-  <button
-    onClick={() =>
-      navigate("/hub/" + customer.id + "/nba", {
-        state: { explorerSearch },
-      })
-    }
-    className="text-black text-sm font-semibold hover:text-slate-700 transition-all"
-  >
-    Proceed &gt;&gt;
-  </button>
+<button
+  type="button"
+  onClick={() =>
+    navigate(`/hub/${customer.id}/nba`, {
+      state: { explorerSearch },
+    })
+  }
+  className="inline-flex items-center gap-1 text-sm font-semibold text-[#7C3AED] hover:text-[#4F46E5] transition-all hover:translate-x-0.5"
+>
+  Proceed
+
+  <span className="text-base font-bold tracking-[-2px]">
+    {">>"}
+  </span>
+</button>
+
 </div>
           </div>
         </div>
