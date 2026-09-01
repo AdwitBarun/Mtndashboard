@@ -10,7 +10,7 @@ const updatedSub1 = `  {
     tenure: 78,
     arpu: 1699,
     risk: 0.44, // Medium Churn Risk
-    strategy: "Cross-Sell",
+    strategy: "Retention",
     planType: "Prepaid Family",
     age: 38,
     location: "Mumbai",

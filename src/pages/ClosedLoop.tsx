@@ -262,7 +262,7 @@ export default function ClosedLoop() {
                 </strong>{" "}
                 and loyalty indicators are strong. Customer represents a{" "}
                 <strong className="text-green-700">
-                  high-confidence cross-sell candidate
+                  high-confidence retention candidate
                 </strong>{" "}
                 for the Smart Roaming Pack.
               </p>
@@ -489,7 +489,7 @@ export default function ClosedLoop() {
                     Strategy
                   </div>
                   <div className="inline-block px-3 py-1 bg-white/20 rounded font-bold text-xs mt-0.5">
-                    Cross-Sell
+                    Retention
                   </div>
                 </div>
               </div>
@@ -510,7 +510,7 @@ export default function ClosedLoop() {
                       "Past bill shock events from roaming",
                       "Inconsistent network speed reported",
                       "Similar customers show 74% acceptance",
-                      "Strong potential for travel cross-sell",
+                      "Strong potential for travel retention",
                     ].map((t, i) => (
                       <li
                         key={i}
@@ -721,7 +721,7 @@ export default function ClosedLoop() {
                 icon: Gift,
                 label: "Recommendation",
                 val: "Smart Roaming Pack",
-                sub: "Cross-Sell Strategy",
+                sub: "Retention Strategy",
                 valColor: "text-[#7C3AED]",
               },
             ].map((m, i) => (

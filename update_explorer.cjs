@@ -36,10 +36,10 @@ const statsCode = `
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
               <span className="text-sm font-bold text-[#1F2937]">AI Spotlight</span>
-              <span className="text-xs font-medium px-2 py-0.5 rounded-full" style={{ background: "#EDE9FE", color: "#6D28D9" }}>Cross-Sell Opportunity</span>
+              <span className="text-xs font-medium px-2 py-0.5 rounded-full" style={{ background: "#EDE9FE", color: "#6D28D9" }}>Retention Opportunity</span>
             </div>
             <p className="text-sm text-[#374151] mb-3">
-              <span className="font-semibold text-[#1F2937]">Rohan Mehta (SUB-10001)</span> — High-value family anchor with strong roaming intent — top cross-sell for the Smart Roaming Pack.
+              <span className="font-semibold text-[#1F2937]">Rohan Mehta (SUB-10001)</span> — High-value family anchor with strong roaming intent — top Retention for the Smart Roaming Pack.
             </p>
             <div className="flex items-center gap-4 text-xs font-medium text-[#6B7280]">
               <div className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-[#10B981]"></div>ARPU ₹1,699</div>

@@ -492,7 +492,7 @@ export default function CustomerIdentity() {
               <div className="mt-auto bg-rose-50/50 border border-rose-100 rounded-xl p-3 flex gap-3">
                 <div className="text-rose-500 mt-0.5"><Activity size={16} /></div>
                 <p className="text-xs text-rose-900 font-medium leading-relaxed">
-                  "Customer significantly over-indexes in streaming, recharge activity and household engagement, indicating strong cross-sell potential."
+                  "Customer significantly over-indexes in streaming, recharge activity and household engagement, indicating strong Retention potential."
                 </p>
               </div>
             </div>
