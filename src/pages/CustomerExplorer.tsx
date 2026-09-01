@@ -369,7 +369,7 @@ export default function CustomerExplorer() {
             </h1>
             <p className="text-sm" style={{ color: "#6B7280" }}>
               Every customer&apos;s best strategy — cross-sell, upsell,
-              retention, win-back
+              retention
             </p>
           </div>
           <div className="relative">
